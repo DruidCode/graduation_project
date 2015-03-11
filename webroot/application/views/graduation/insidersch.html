@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="/static/sign/insidersch/css/main-min.css">
+		<script defer src="/static/sign/insidersch/js/main-min.js"></script>
+	</head>
+	<body>
+		<div class="app">
+			<div class="banner">
+	<?php include('navbar.html');?>
+			</div>
+			<h1>活动日程</h1>
+			<div>
+				特别提示：
+				<p>1、30日下午，我们为大家准备了丰富的参与形式，分别为“走进岛邻企业”和“正和岛新年运动会”，因两项活动并行，请您勾选其中一项。</p>
+				<p>2、正和岛新年运动会“趣味运动嘉年华”与“竞技比赛”可同时选择参与。 “竞技秀场”中比赛项目只可单项选择。</p>
+			</div>
+			<form method="post" action="<?=site_url('sign/route_into') ?>">
+				<ul>
+					<li>
+						<label class="top-type"><input data-type="top-type" type="radio" name="act">13:30-17:00 走进岛邻企业</label>
+						<ul class="sub-type">
+							<li><label><input type="radio" disabled name="route[]" value="1" <?php if(in_array('1',$route)) echo 'checked="checked"';?>>正和岛岛亲走进——云南白药<span style="color:#f90;"> (报名已满)</span><br><span style="color:red;font-size:12px;">（限额40名）</span></br>
+
+							云南白药，云南最著名的企业之一，一支牙膏卖了91亿，创造了中国中草药牙膏销售“神话”，这背后蕴含的是云南白药企业敢于突破，与时俱进，在历史的数次转身中积极变革与创新。
+							走进云南白药，一起探秘一支牙膏背后的“商业奇迹”。</label></li>
+						<li><label><input type="radio" <?php if(!$is_valid) echo 'disabled';?> name="route[]" value="2" <?php if(in_array('2',$route)) echo 'checked="checked"';?>>正和岛岛亲走进——沃森生物<?php if(!$is_valid) echo "<span style='color:#f90;'> (报名已满)</span>";?>
+							<br><span style="color:red;font-size:12px;">（限额30名）</span></br>
+							沃森生物是扎根云南的一家高新技术企业，是国家级的企业疫苗研发中心和疫苗产业化示范基地。当我们坐拥众多自然的馈赠，该如何利用这些自然资源开创一条产、研、销结合的市场化道路？如何冲破地域的限制，打通全国市场？
+							走进沃森，看看民企如何做到这些。</label></li>
+						<li><label><input type="radio" disabled name="route[]" value="3" <?php if(in_array('3',$route)) echo 'checked="checked"';?>>云南翡翠探秘——昆明理工大学珠宝实训基地<span style="color:#f90;"> (报名已满)</span>
+							<br><span style="color:red;font-size:12px;">（限额30名）</span></br>
+							翡翠，一个云南特有的标识，一张特色的名片。赏玉、玩玉、藏玉、投资玉石已经成为云南的一种文化。我们需要用何种方式审视这种投资行为？如何更专业了解翡翠鉴赏、投资的命门？如何体验“无风险赌石”带来的刺激感觉？
+							走进云南理工大学珠宝专业，做个内行看看门道！</label></li>
+						</ul>
+					</li>
+					<li>
+						<label class="top-type"><input  data-type="top-type" type="radio" name="act">13:00-17:00 正和岛运动会</label>
+						<ul class="sub-type">
+							<li><label><input type="checkbox" name="route[]" value="4" <?php if(in_array('4',$route)) echo 'checked="checked"';?>>
+							正和岛趣味运动嘉年华
+							参与者入场时发放一定数量游戏币，嘉年华中每项游戏需投币参与并有机会赢取更多游戏币，赢得的游戏币可换取相应的奖品。
+							项目：点球大战、定点投篮、迷你保龄、飞镖、气球射击、趣味网球、投沙包、拔河、计时呼啦圈、套圈、玻璃球、跳绳等。</label>
+							</li>
+							<li><label><input type="checkbox" data-type="sports" name="yundong">竞技秀场</label>
+								<ul id="sports">
+									<li><label><input type="radio" name="route[]" value="13" <?php if(in_array('13',$route)) echo 'checked="checked"';?>>高尔夫球赛（12月30日，滇池高尔夫球场，费用AA制,990元/人）</label></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<div class="btn-group btn-group-justified">
+				<div class="btn-group" role="group">
+					<a href="<?=site_url('sign/basic') ?>" class="btn btn-green">上一步</a>
+				</div>
+					<div class="btn-group" role="group">
+						<button type="submit" class="btn btn-blue">下一步</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

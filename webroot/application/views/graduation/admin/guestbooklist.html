@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>主题名字</title>
+		<link rel="stylesheet" type="text/css" href="/static/core/css/common.css">
+		<link rel="stylesheet" type="text/css" href="/static/core/bootstrap-3.3.2-dist/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/static/graduation/admin/css/guestbook.css">
+	</head>
+	<body>
+	<?php include('navbar.html');?>
+	<div class="container-fluid">
+	<div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="<?=site_url('admin/commend');?>">添加表彰 </a></li>
+            <li><a href="<?=site_url('admin/commend_list');?>">表彰列表</a></li>
+            <li><a href="<?=site_url('admin/act_list');?>">活动列表</a></li>
+            <li><a href="<?=site_url('admin/act');?>">添加活动</a></li>
+            <li><a href="<?=site_url('admin/news_list');?>">新闻列表</a></li>
+            <li><a href="<?=site_url('admin/news');?>">添加新闻</a></li>
+            <li class="active"><a href="<?=site_url('admin/guestbook_list');?>">留言<span class="sr-only">(current)</span></a></li>
+          </ul>
+        </div>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<h3 class="page-header">留言列表</h3>
+          	<div class="blog-post">
+				<div class="list">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td>名字</td>
+						<td>邮箱</td>
+						<td>内容</td>
+						<td>时间</td>
+						<td>操作</td>
+					</tr>
+		  		<?php if (!empty($list)) {?>
+		  			<?php foreach ($list as $li) {?>
+					<tr>
+						<td><?php echo $li['name'];?></td>
+						<td><?php echo $li['email'];?></td>
+						<td><?php echo $li['text'];?></td>
+						<td><?php echo date('Y-m-d H:i:s', $li['ctime']);?></td>
+						<td><a href="<?php echo site_url('admin/guestbook') . '?gid=' . $li['id']?>">修改</a> <a href="">删除</a></td>
+					</tr>
+					<?php }?>
+				<?php }?>
+				<ul style="text-align: center;"><?php echo $page;?></ul>
+				</table>
+				</div>
+			</div>
+		</div>
+	</div><!-- end .row -->
+	</div> <!-- end .container-fluid -->
+
+	<script src="/static/core/js/common.js"></script>
+	</body>
+</html>

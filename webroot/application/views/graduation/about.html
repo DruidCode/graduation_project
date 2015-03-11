@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>主题名字</title>
+		<link rel="stylesheet" type="text/css" href="/static/core/bootstrap-3.3.2-dist/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/static/graduation/about/css/about.css">
+	</head>
+	<body>
+	<?php include('navbar.html');?>
+	<div class="container-fluid">
+	<div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="<?php echo site_url("help/about");?>">关于我们 <span class="sr-only">(current)</span></a></li>
+            <li><a href="<?php echo site_url("help/contact");?>">联系我们</a></li>
+            <li><a href="#">常见问题</a></li>
+            <li><a href="#">免责声明</a></li>
+          </ul>
+        </div>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<h3 class="page-header">关于我们</h3>
+			<p>司以php为核心语言的editplus开发工具，利用微软提供的VS2008自带的IIS建立运行环境，再结合SQL Server 2008建立数据连接关系。利用其提供的各种组件，在短时间内建立数据库，对数据库进行分析与建立editplus T页面，不断改进，直到功能基本实现的可行系统。
+该网上购物系统由前台报名及相关新闻和后台管理两部分组成.前台主要志愿者报名、相关新闻、老人动态、志愿者捐款、留言板、活动详情等;后台管理主要对网站内的一些基础数据进行管理，包括新闻管理、志愿者管理、留言板管理、活动更新等</p>
+		</div>
+	</div><!-- end .row -->
+	</div> <!-- end .container-fluid -->
+
+	<script src="/static/core/jquery/jquery.min.js"></script>
+	<script src="/static/core/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
+	</body>
+</html>

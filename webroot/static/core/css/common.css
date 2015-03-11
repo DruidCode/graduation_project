@@ -1,0 +1,260 @@
+/* Begin Reset CSS, from YUI 2 */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
+	margin: 0;
+	padding: 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+fieldset,img {
+	border: 0;
+}
+
+address,caption,cite,code,dfn,em,strong,th,var {
+	font-style: normal;
+	font-weight: normal;
+}
+
+ul,li,dl,dt,dd,ol {
+	list-style: none;
+}
+
+caption,th {
+	text-align: left;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-size: 100%;
+	font-weight: normal;
+}
+
+q:before,q:after {
+	content: '';
+}
+
+abbr,acronym {
+	border: 0;
+}
+/* End Reset CSS, from YUI 2 */
+
+
+/* Begin Global CSS */
+html {
+	color: #333;
+	font: normal 14px/24px Arial;
+	font-family: "黑体","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+}
+
+body {
+	background-color: #E4E4E4;
+}
+
+.clear {
+	clear: both;
+	display: block;
+	line-height: 0;
+	height: 0;
+	font-size: 0;
+	overflow: hidden;
+	visibility: hidden;
+}
+
+.clearfix:after {
+	clear: both;
+	content: ' ';
+	display: block;
+	font-size: 0;
+	line-height: 0;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+a {
+	color: #0087c0;
+	outline: none;
+}
+
+a:focus {
+	outline: none
+}
+
+a:link,
+a:visited {
+	text-decoration: none;
+}
+
+strong {
+	font-weight: 700;
+}
+
+input,
+select,
+textarea {
+	font-family: '黑体',"Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+}
+
+textarea {
+	resize: none;
+}
+
+input[type="text"], input[type="password"], textarea, select {
+	outline: none;
+}
+
+input[type="text"], input[type="password"], textarea {
+	-webkit-appearance: none;
+}
+/* End Global CSS */
+
+
+/* Begin Page Common Style */
+body{
+	background:url(../img/bg.jpg) repeat center 0;
+}
+
+.content-inner {
+	width: 320px;
+	margin: 0 auto;
+}
+/* End Page Common Style */
+
+
+/* Begin Header */
+#header{
+	
+}
+
+#header .header-inner{
+	position: relative;
+	width: 320px;
+	height: 35px;
+	margin: 0 auto;
+	background:url(../img/headtop.png) no-repeat;
+}
+
+#header .logo {
+	position: absolute;
+	top: 5px;
+	left: 20px;
+	background: url(../img/logo.png) no-repeat;
+	font-size: 10px;
+	color: #fff;
+	font-weight: bold;
+	padding-left: 72px;
+	line-height: 30px;
+}
+
+#header .sharing{
+	position:absolute;
+	top: 4px;
+	right: 5px;
+	width:50px;
+	height:25px;
+}
+
+#header .sharing a{
+	width:43px;
+	height:23px;
+	text-align:center;
+	font-size:12px;
+	border:1px solid #8bc7b5;
+	background: #69b29d; /* Old browsers */
+	background: -moz-linear-gradient(top,  #69b29d 1%, #4c9680 49%, #306e62 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#69b29d), color-stop(49%,#4c9680), color-stop(100%,#306e62)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #69b29d 1%,#4c9680 49%,#306e62 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #69b29d 1%,#4c9680 49%,#306e62 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #69b29d 1%,#4c9680 49%,#306e62 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #69b29d 1%,#4c9680 49%,#306e62 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#69b29d', endColorstr='#306e62',GradientType=0 ); /* IE6-9 */
+	border-radius:3px;
+	display:block;
+	margin:2px 0 0 6px;
+	
+}
+#header .sharing a:link,
+#header .sharing a:visited,
+#header.sharing a:hover,
+#header .sharing a:active{
+	color:#fff;
+}
+/* End Header */
+
+
+/* Begin Footer */
+#footer .footer-inner {
+	position: relative;
+	width: 320px;
+	height: 60px;
+	margin: 0 auto;
+}
+
+#footer .phone-info {
+	position: absolute;
+	top: 0;
+	left: 13px;
+	font-size:13px;
+	color:#748bbd;
+	text-shadow: 0 1px 0 #fff;
+}
+
+#footer .phone-number{
+	margin-left: 3px;
+	font-size: 14px;
+	color: #748bbd;
+	font-weight:bold;
+}
+
+#footer .weixin{
+	position: absolute;
+	top: 0;
+	right: 13px;
+	
+}
+
+#footer .weixin a {
+	font-size: 12px;
+	color:#282828;
+	padding:0 0 12px 0;
+	text-shadow: 0 1px 0 #fff;
+	background:url(../img/focus.png) no-repeat 0 bottom;
+}
+
+#footer .copyright{
+	position: absolute;
+	font-size: 12px;
+	top: 20px;
+	left: 13px;
+	color:#768cbe;
+}
+/* start msg-box */
+  .msg-box {
+      display: none;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+  }
+  
+  .msg-card {
+      position: fixed;
+      top: 30%;
+      left: 10px;
+      right: 10px;
+      margin: auto 0;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.99);
+      font-size: 16px;
+      color: #fff;
+      text-align:center;
+      line-height: 21px;
+      border-radius: 5px;
+  }
+  
+  /* end msg-box */
+
+/*  End Footer  */

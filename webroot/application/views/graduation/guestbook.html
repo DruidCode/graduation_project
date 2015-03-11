@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>主题名字</title>
+		<link rel="stylesheet" type="text/css" href="/static/core/css/common.css">
+		<link rel="stylesheet" type="text/css" href="/static/core/bootstrap-3.3.2-dist/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/static/graduation/guestbook/css/guestbook.css">
+	</head>
+	<body>
+	<?php include('navbar.html');?>
+
+      <div class="row">
+
+        <div class="col-sm-8 blog-main">
+
+		  <?php if (!empty($list)) {?>
+          <div class="blog-post">
+		  	<ul class="commentlist">
+		  	<?php foreach ($list as $li) {?>
+				<div class="comment">
+				<li><?php echo $li['name'];?>|<?php echo date('Y-m-d H:i:s', $li['ctime']);?></li>
+				<?php echo $li['text'];?>
+				</div>
+				<div class="answer">
+					<span>系统回复:</span> 哈哈哈
+				</div>
+			<?php }?>
+			</ul>
+		  <div align="center">
+		  <?php echo $page;?>
+		  </div>
+          </div><!-- /.blog-post -->
+		  <?php }?>
+
+          <div class="blog-post">
+<form class="form-horizontal">
+  <div class="form-group">
+    <label for="inputName2" class="col-sm-2 control-label">name</label>
+    <div class="col-sm-5">
+      <input type="text" name="name" class="form-control" id="inputName2" placeholder="name">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+    <div class="col-sm-5">
+      <input type="email" name="email" class="form-control" id="inputEmail3" placeholder="Email">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">text</label>
+    <div class="col-sm-10">
+		<textarea class="form-control" name="content" rows="6" id="inputText" placeholder="Text"></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">验证码</label>
+    <div class="col-sm-10">
+		<input type="text" class="input" id="code" maxlength="4" placeholder="验证码" /> <img src="<?php echo $code;?>" id="getcode_math" title="看不清，点击换一张" align="absmiddle"></p>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="button" class="btn btn-default" id="sub">提交</button>
+    </div>
+  </div>
+</form>
+          </div><!-- /.blog-post -->
+
+        </div><!-- /.blog-main -->
+
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          <div class="sidebar-module sidebar-module-inset">
+            <h4>网站标题</h4>
+            <p>网站介绍</p>
+          </div>
+          <div class="sidebar-module">
+            <h4>最新新闻</h4>
+            <ol class="list-unstyled">
+              <li><a href="#">新闻</a></li>
+              <li><a href="#">新闻</a></li>
+              <li><a href="#">新闻</a></li>
+              <li><a href="#">新闻</a></li>
+              <li><a href="#">新闻</a></li>
+              <li><a href="#">新闻</a></li>
+              <li><a href="#">新闻</a></li>
+              <li><a href="#">新闻</a></li>
+            </ol>
+          </div>
+          <div class="sidebar-module">
+            <h4>Elsewhere</h4>
+            <ol class="list-unstyled">
+              <li><a href="#">GitHub</a></li>
+              <li><a href="#">Twitter</a></li>
+              <li><a href="#">Facebook</a></li>
+            </ol>
+          </div>
+        </div><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+
+	<script>
+		var get_code = "<?php echo $code;?>";
+		var add_url = "<?php echo $add;?>";
+	</script>
+	<script src="/static/core/js/common.js"></script>
+	<script src="/static/graduation/guestbook/js/guestbook.js"></script>
+	</body>
+</html>

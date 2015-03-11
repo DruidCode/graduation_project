@@ -1,0 +1,56 @@
+.msg-box {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: auto;
+	overflow: hidden;
+	background: rgba(255, 255, 255, 0.4);
+	z-index: 10;
+}
+
+.msg-card {
+	position: absolute;
+	top: 45%;
+	left: 10px;
+	right: 10px;
+	margin: auto 0;
+	padding: 10px;
+	background: rgba(0, 0, 0, 0.8);
+	font-size: 16px;
+	color: #fff;
+	text-align:center;
+	line-height: 21px;
+	border-radius: 5px;
+}
+
+@-webkit-keyframes show {
+	from { 
+		opacity: 0;
+	}
+	to { 
+		opacity: 1; 
+	}
+}
+
+@-webkit-keyframes hide {
+	from { 
+		height: auto;
+		opacity: 1;
+	}
+	to { 
+		height: auto;
+		opacity: 0; 
+	}
+}
+
+.msg-box.show {
+	height: auto;
+	-webkit-animation: show 0.5s;
+}
+
+.msg-box.hide {
+	height: 0;
+	-webkit-animation: hide 0.2s;
+}

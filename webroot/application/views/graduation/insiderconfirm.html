@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="/static/sign/insiderconfirm/css/main-min.css">
+	</head>
+	<body>
+		<div class="app">
+			<div class="banner">
+	<?php include('navbar.html');?>
+			</div>
+			<h1>报名信息确认</h1>
+			<h2>基本信息：</h2>
+			<div>
+				<div>姓名:<?php echo $info['uname'];?></div>
+				<div>手机:<?php echo $info['mobile'];?></div>
+				<div>邮箱:<?php echo $info['email'];?></div>
+			</div>
+			<h2>活动日程：</h2>
+			<h2>发票信息：</h2>
+			<div>
+				<div>发票类型:<?php if(empty($info['invoice_type'])){echo '不需要开发票';}else if ($info['invoice_type'] == 1) {echo '需要开发票';}?></div>
+				<?php if (!empty($info['invoice_type'])) {?>
+				<div>发票开头:<?php echo $info['invoice_title'];?></div>
+				<?php }?>
+			</div>
+			
+			<?php if(!isset($view) || empty($view)) { ?>
+			<div class="btn-group btn-group-justified">
+				<div class="btn-group" role="group">
+					<a href="<?=site_url('sign/invoice') ?>" class="btn btn-green">上一步</a>
+				</div>
+				<div class="btn-group" role="group">
+					<a href="<?=site_url('sign/confirm_sign') ?>" class="btn btn-blue">确认支付</a>
+				</div>
+			</div>
+			<?php }?>
+		</div>
+	</body>
+</html>

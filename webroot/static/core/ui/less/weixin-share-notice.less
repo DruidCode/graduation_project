@@ -1,0 +1,28 @@
+#weixin-share-notice {
+	display: none;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 10;
+	background-color: rgba(0,0,0,0.7);
+	&.show {
+		display: block;
+	}
+	&:before {
+		content: "";
+		position: absolute;
+		right: 10px;
+		width: 300px;
+		height: 120px;
+		background: no-repeat 0 0;
+		background-size: cover;
+	}
+	&.android:before {
+		background-image: data-uri('../img/share-tip-android.png');
+	}
+	&.ios:before {
+		background-image: data-uri('../img/share-tip-ios.png');
+	}
+}

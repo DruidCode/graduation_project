@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="/static/sign/login/css/main-min.css">
+		<link rel="stylesheet" type="text/css" href="/static/core/bootstrap-3.3.2-dist/css/bootstrap.css">
+		<script defer src="/static/sign/login/js/main-min.js"></script>
+		<script>
+			var getVerCodeUrl = "/index.php/sign/send_code";
+			var loginUrl = "/index.php/sign/login";
+		</script>
+	</head>
+	<body>
+		<div class="app">
+			<div class="banner">
+	<?php include('navbar.html');?>
+			</div>
+			<form class="signup-form" action="/index.php/sign/login" method="post">
+				<div class="input-group">
+					<input type="text" id="mobile" name="tel" class="form-control" placeholder="手机号">
+				</div>
+				<div class="input-group">
+					<input type="text" id="vercode" name="vercode" class="form-control" placeholder="验证码">
+					<a id="get-ver-code" type="button" class="input-group-addon btn btn-blue">立即获取</a>
+				</div>
+				<div class="btn-group btn-group-justified">
+					<div class="btn-group" role="group">
+						<button type="submit" class="btn btn-blue">确认</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

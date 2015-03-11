@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="/static/sign/insiderinvoice/css/main-min.css">
+		<?php include('inc/requireconf.html');?>
+		<script defer src="/static/core/libs/js/require.js" data-main="/static/sign/insiderinvoice/js/main.js"></script>
+	</head>
+	<body>
+		<div class="app">
+			<div class="banner">
+	<?php include('navbar.html');?>
+			</div>
+			<h1>赞助捐款</h1>
+			<div>
+				<p>一点爱心十分温暖<br>自愿捐款</p>
+			</div>
+			<h1>发票信息</h1>
+			<form method="post" action="<?=site_url('sign/invoice_into') ?>">
+			<div class="info">
+				<p>温馨提示：<br>1.汇款公司（个人）名称和开票公司（个人）名称要一致。<br>2.发票将于活动结束后统一邮寄。</p>
+				<h2>发票类型</h2>
+				<select class="form-control" id="invoice-type" name="invoice_type">
+					<option value="0">暂不捐款</option>
+					<option value="1" <?php if($invoice_type == '1') echo 'selected="selected"';?>>需要发票</option>
+					<option value="2">不需要发票</option>
+				</select>
+				<div id="invoice-detail">
+					<div class="input-group">
+						  <span class="input-group-addon">发票开头</span>
+						  <input type="text" id="invoice_title" data-name="发票开头" class="form-control" name="invoice_title" value="<?=$invoice_title ?>">
+					</div>
+				</div>
+			</div>
+			<div class="btn-group btn-group-justified">
+				<div class="btn-group" role="group">
+					<a href="<?=site_url('sign/route') ?>" class="btn btn-green">上一步</a>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="submit" class="btn btn-blue">下一步</button>
+				</div>
+			</div>
+			</form>
+		</div>
+	</body>
+</html>

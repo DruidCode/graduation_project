@@ -1,0 +1,30 @@
+.app-loading (@icon-height:40px;@display:none;) {
+	display: @display;
+	position: relative;
+	height: @icon-height;
+	overflow: hidden;
+	div {
+		position: absolute;
+		margin: auto;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		width: @icon-height;
+		height: @icon-height;
+		background: data-uri('../img/loading.png') no-repeat center center;
+		background-size: cover;
+		-webkit-animation: loading 1s linear infinite;
+		animation: loading 1s linear infinite;
+	}
+	@-webkit-keyframes loading {
+		from {
+			-webkit-transform: rotateZ(0deg);
+			transform: rotateZ(0deg);
+		}
+		to {
+			-webkit-transform: rotateZ(360deg);
+			transform: rotateZ(360deg);
+		}
+	}
+}

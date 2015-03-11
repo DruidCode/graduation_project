@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>主题名字</title>
+		<link rel="stylesheet" type="text/css" href="/static/core/css/common.css">
+		<link rel="stylesheet" type="text/css" href="/static/core/bootstrap-3.3.2-dist/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/static/graduation/admin/css/commend.css">
+	</head>
+	<body>
+	<?php include('navbar.html');?>
+	<div class="container-fluid">
+	<div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="<?=site_url('admin/commend');?>">添加表彰 </a></li>
+            <li><a href="<?=site_url('admin/commend_list');?>">表彰列表</a></li>
+            <li><a href="<?=site_url('admin/act_list');?>">活动列表</a></li>
+            <li><a href="<?=site_url('admin/act');?>">添加活动</a></li>
+            <li class="active"><a href="<?=site_url('admin/news_list');?>">新闻列表<span class="sr-only">(current)</span></a></li>
+            <li><a href="<?=site_url('admin/news');?>">添加新闻</a></li>
+            <li><a href="<?=site_url('admin/guestbook_list');?>">留言</a></li>
+          </ul>
+        </div>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<h3 class="page-header">新闻列表</h3>
+          	<div class="blog-post">
+		  		<?php if (!empty($list)) {?>
+				<ul>
+		  			<?php foreach ($list as $li) {?>
+					<li>
+						<a href="<?php echo site_url('admin/news_detail') . '?nid=' . $li['id']?>"><?php echo $li['news_title'];?></a>
+						<span><a href="<?php echo site_url('admin/news_detail') . '?nid=' . $li['id']?>">修改</a></span>
+					</li>
+					<?php } ?>
+				</ul>
+				<?php }?>
+			<ul style="text-align: center;"><?php echo $page;?></ul>
+			</div>
+		</div>
+	</div><!-- end .row -->
+	</div> <!-- end .container-fluid -->
+
+	<script src="/static/core/js/common.js"></script>
+	<script src="/static/graduation/admin/js/commend.js"></script>
+	</body>
+</html>
