@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<title></title>
+	<?php include('head.html');?>
 		<link rel="stylesheet" type="text/css" href="/static/sign/insiderconfirm/css/main-min.css">
 	</head>
 	<body>
@@ -19,6 +17,9 @@
 				<div>邮箱:<?php echo $info['email'];?></div>
 			</div>
 			<h2>活动日程：</h2>
+			<div>
+				<?php echo $route;?>
+			</div>
 			<h2>发票信息：</h2>
 			<div>
 				<div>发票类型:<?php if(empty($info['invoice_type'])){echo '不需要开发票';}else if ($info['invoice_type'] == 1) {echo '需要开发票';}?></div>

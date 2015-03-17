@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<title></title>
+	<?php include('head.html');?>
 		<link rel="stylesheet" type="text/css" href="/static/sign/login/css/main-min.css">
 		<link rel="stylesheet" type="text/css" href="/static/core/bootstrap-3.3.2-dist/css/bootstrap.css">
 		<script defer src="/static/sign/login/js/main-min.js"></script>
@@ -16,6 +14,7 @@
 		<div class="app">
 			<div class="banner">
 	<?php include('navbar.html');?>
+			<h2><?php echo $act['act_name'];?></h2>
 			</div>
 			<form class="signup-form" action="/index.php/sign/login" method="post">
 				<div class="input-group">
@@ -30,7 +29,12 @@
 						<button type="submit" class="btn btn-blue">确认</button>
 					</div>
 				</div>
+				<input type="hidden" value="<?php echo $act['id']?>" id="aid"/>
 			</form>
+			<div class="desc">
+				<h2>活动简介：</h2>
+				<div><?php echo $act['act_info'];?></div>
+			</div>
 		</div>
 	</body>
 </html>

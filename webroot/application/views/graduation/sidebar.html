@@ -1,0 +1,23 @@
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          <div class="sidebar-module sidebar-module-inset">
+            <h4>夕阳红老年人活动中心</h4>
+            <p>网站介绍</p>
+          </div>
+          <div class="sidebar-module">
+            <h4>最新新闻</h4>
+            <ol class="list-unstyled">
+		  <?php if (!empty($sider)) {?>
+		  		<?php foreach ($sider as $si) {?>
+              <li><a href="<?php echo site_url('news/news_detail').'?nid='.$si['id'];?>"><?php echo $si['news_title']?></a></li>
+			  <?php }?>
+		  <?php }?>
+            </ol>
+          </div>
+          <div class="sidebar-module">
+            <h4>友情链接</h4>
+            <ol class="list-unstyled">
+              <li><a href="http://www.xiao-ti.com/">孝悌</a></li>
+              <li><a href="http://www.lnr100.com/">济南市关爱老人协会</a></li>
+            </ol>
+          </div>
+        </div><!-- /.blog-sidebar -->

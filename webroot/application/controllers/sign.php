@@ -16,30 +16,24 @@ class Sign extends CI_Controller
     {
         parent :: __construct();
         $this->load->model('graduation/sign_model', 'sign');
+        $this->load->model('graduation/admin_model', 'admin');
         $this->load->model('api/api_model', 'api');
         $this->load->config('sign');
         $this->load->helper(array('url', 'curl', 'sm', 'web_api'));
-        //$this->__default();
     }
-
-	#todo 清除cookie
-	function clear()
-	{
-		$this->api->cookie(REGISTER_COOKIE, null);
-	}
-
-	#测试接口
-	public function liufangtest()
-	{
-        $mobile = $this->input->get_post('mobile', true);
-		$userInfo = $this->sign->getUserInfo($mobile);
-		error_log('info=='.var_export($userInfo,true).chr(10),3,'/tmp/lf.log');
-	}
 
     public function index()
     {
 		$id = $this->input->get_post('aid', true);
-		$this->load->view('graduation/loginpage.html');
+		$re = $this->admin->selectBy('act', array('id'=>$id));
+		$data = array(
+			'act' => $re[0],
+		);
+		if ($re[0]['sign_time'] < time()) {
+			$this->load->view('graduation/close.html', $data);
+			return;
+		}
+		$this->load->view('graduation/loginpage.html', $data);
     }
 
 	//获取验证码
@@ -51,7 +45,7 @@ class Sign extends CI_Controller
         if ( !$this->api->checkTel($mobile) ) return $this->api->xNetOut('1', '手机格式不正确', '', 'default');
 
 		//是否登陆过
-        $record = $this->sign->selectBy('sign', array('mobile'=>$mobile));
+        $record = $this->sign->selectBy('sign', array('mobile'=>$mobile, 'act_id'=>$id));
         if (empty($record)) {
             $vcode = $this->hasVc();
         } else {
@@ -61,9 +55,10 @@ class Sign extends CI_Controller
             'act_id' => $id,
             'mobile' => $mobile,
             'vcode'  => $vcode,
+            'check_status'  => 1,
             'submit_time' => date('Y-m-d H:i:s'), //获取验证码时间
         );
-        $in = $this->replaceData('sign', array('mobile'=>$mobile), $insertData);
+        $in = $this->replaceData('sign', array('mobile'=>$mobile, 'act_id'=>$id), $insertData);
         if ($in) {
 			//发送验证码
             return $this->api->xNetOut('0', '发送成功,请注意查收手机短信，并填写短信中的邀请码'.$vcode, '', 'default');
@@ -79,6 +74,7 @@ class Sign extends CI_Controller
     {
         $mobile = trim($this->input->get_post('mobile', true));
         $vcode  = trim($this->input->get_post('vercode', true));
+        $aid  = trim($this->input->get_post('aid', true));
 
 		log_message('info', 'the mobile ' . $mobile . ' try to login');
         if ( !$this->api->checkTel($mobile) ) {
@@ -87,7 +83,7 @@ class Sign extends CI_Controller
             $this->api->xNetOut($code, $msg, '', 'default');
             return;
         }
-        $record = $this->sign->checkLogin($mobile, $vcode);
+        $record = $this->sign->checkLogin($mobile, $vcode, $aid);
         if ( empty($record) ) {
             $code = 2;
             $msg  = '请检查您的手机号和验证码是否正确';
@@ -99,12 +95,14 @@ class Sign extends CI_Controller
 		
 		$step = $record['0']['register_step'] ? $record['0']['register_step'] : 0;
 		//用cookie存登陆信息
-		$this->update_cookie(REGISTER_COOKIE, array(UID_COOKIE=>$uid, STEP_COOKIE=>$step));
+		$this->update_cookie(REGISTER_COOKIE, array(UID_COOKIE=>$uid, STEP_COOKIE=>$step, AID_COOKIE=>$aid));
+		/*
 		#未注册
 		if ( empty($record[0]['uname']) ) {
             $this->api->xNetOut(0, '', site_url('sign/register'), 'default');
 			return;
 		}
+		*/
 
 		# 判断跳到哪个页面
      	$sign_step = $this->config->item('sign_step');
@@ -123,7 +121,7 @@ class Sign extends CI_Controller
 		//是否已经填写过
 		$data = array();
         $info = $this->sign->selectBy('sign', array('id'=>$uid));
-		if ($info[0]['uname'] && $info[0]['mobile']) { //填写过
+		if ($info[0]['mobile']) { //填写过
 			$data['name']    = $info[0]['uname'];
 			$data['mobile']  = $info[0]['mobile'];
 			$data['email']   = $info[0]['email'];
@@ -147,6 +145,7 @@ class Sign extends CI_Controller
         $name 	  = trim($this->input->get_post('name', true));
         $mobile   = trim($this->input->get_post('mobile', true));
         $email    = trim($this->input->get_post('email', true));
+        $aid  = trim($this->input->get_post('aid', true));
         if ( empty($name) ) return $this->api->xNetOut('3', '姓名不能为空', '', 'default');
         if ( !$this->api->checkTel($mobile) ) return $this->api->xNetOut('6', '手机格式不正确', '', 'default');
 		$insert_data = array(
@@ -158,7 +157,7 @@ class Sign extends CI_Controller
 		);
         $re = $this->replaceData('sign', array('id'=>$check[UID_COOKIE]), $insert_data);
         if ($re) {
-			$this->update_cookie(REGISTER_COOKIE, array(UID_COOKIE=>$check[UID_COOKIE], STEP_COOKIE=>1));
+			$this->update_cookie(REGISTER_COOKIE, array(UID_COOKIE=>$check[UID_COOKIE], STEP_COOKIE=>1, AID_COOKIE=>$check[AID_COOKIE]));
         	$this->api->xNetOut('0', '', site_url('sign/route'), 'default');
 			return;
 		} else {
@@ -176,6 +175,7 @@ class Sign extends CI_Controller
 			return;
 		}
         $info = $this->sign->selectBy('sign', array('id'=>$check[UID_COOKIE]));
+        $act = $this->sign->selectBy('act', array('id'=>$check[AID_COOKIE]));
 		#判断行程剩余
 		$route_num = $this->sign->get_route(2, 40);
 		$is_valid = true;
@@ -185,14 +185,9 @@ class Sign extends CI_Controller
 		$data = array();
 		$data['route'] = array();
 		$data['is_valid'] = $is_valid;
-		if (empty($info[0]['route'])) {
-        	$this->load->view('graduation/insidersch.html', $data);
-			return;
-		} else {
-			$data['route'] = json_decode($info[0]['route'],true);
-        	$this->load->view('graduation/insidersch.html', $data);
-			return;
-		}
+		$data['route'] = str_replace(chr(10), '<br/>', $act[0]['act_route']);
+        $this->load->view('graduation/insidersch.html', $data);
+		return;
 	}
 
 	//行程更新到数据库
@@ -209,7 +204,7 @@ class Sign extends CI_Controller
         $data['register_time'] = date('Y-m-d H:i:s');
         $re = $this->replaceData('sign', array('id'=>$check[UID_COOKIE]), $data);
         if ($re) {
-			$this->update_cookie(REGISTER_COOKIE, array(UID_COOKIE=>$check[UID_COOKIE], STEP_COOKIE=>2));
+			$this->update_cookie(REGISTER_COOKIE, array(UID_COOKIE=>$check[UID_COOKIE], STEP_COOKIE=>2, AID_COOKIE=>$check[AID_COOKIE]));
         	redirect("sign/invoice");
 			return;
 		} else {
@@ -251,7 +246,7 @@ class Sign extends CI_Controller
 		}
         $re = $this->replaceData('sign', array('id'=>$check[UID_COOKIE]), $data);
         if ($re) {
-			$this->update_cookie(REGISTER_COOKIE, array(UID_COOKIE=>$check[UID_COOKIE], STEP_COOKIE=>3));
+			$this->update_cookie(REGISTER_COOKIE, array(UID_COOKIE=>$check[UID_COOKIE], STEP_COOKIE=>3, AID_COOKIE=>$check[AID_COOKIE]));
         	redirect('sign/confirm');
 		} else {
         	log_message('info', 'mobile ' . $mobile . ' submit basic failed');
@@ -269,12 +264,12 @@ class Sign extends CI_Controller
 		}
 		$uid = $check[UID_COOKIE];
         $info = $this->sign->selectBy('sign', array('id'=>$uid));
+        $act = $this->sign->selectBy('act', array('id'=>$check[AID_COOKIE]));
 
-		$route = json_decode($info[0]['route']);
 		$view = $this->uri->segment(3) == 'view' ? true : false;
 		$data = array();
 		$data['info'] = $info[0];
-		$data['route'] = $route;
+		$data['route'] = str_replace(chr(10), '<br/>', $act[0]['act_route']);
 		//$data['status'] = $status;
         $this->load->view('graduation/insiderconfirm.html', $data);
 	}
@@ -400,11 +395,5 @@ class Sign extends CI_Controller
 		#设置cookie
 		$cookie_value = $this->api->str_encrypt( serialize($value), COOKIE_PASSWARD);
 		$this->api->cookie($name, base64_encode($cookie_value) );
-	}
-
-	public function pay_ment()
-	{
-		$this->load->view('graduation/payment.html');
-		return;
 	}
 }

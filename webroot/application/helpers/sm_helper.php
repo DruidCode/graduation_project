@@ -38,21 +38,12 @@
  */
 if ( !function_exists('sm_api_load') ) {
 	function sm_api_load() {
-		require_once(dirname(__FILE__) . '/../../../lib/ms_client_api.php');
 	}
 }
 
 if ( !function_exists('sms_send') ) {
 
 	function sms_send($mobiles, $content, $snumber = '24') {
-		$client = MS_CLIENT_TYPE_WWW;
-		$version = MS_CONST_VER_SMS;
-		$client_id = '1001';
-		$source = 'csmd';
-		$secret_key = '89b1bc817acb742dc915be12510f5e33';
-		$r = ms_send($client, $version, $client_id, $source, $secret_key, $mobiles, $content, $snumber);
-		log_message('info', ' sms send ' . $mobiles . ' , ' . $content . ' result='.var_export($r,true));
-		return $r;
 	}
 }
 /* Location: ./system/helpers/file_helper.php */

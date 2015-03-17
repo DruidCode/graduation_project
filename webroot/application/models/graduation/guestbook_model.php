@@ -22,6 +22,7 @@ class Guestbook_model extends CI_model {
     {
 		if ( empty($offset) ) $offset = 0;
         $this->db->order_by('ctime desc');
+		$this->db->where( "is_active = 1" );
         $query = $this->db->get('guestbook', $num, $offset);
         $data =  $query->result_array();
         return $data;

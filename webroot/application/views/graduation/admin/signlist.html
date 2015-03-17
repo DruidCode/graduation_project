@@ -1,9 +1,7 @@
 <!doctype html>
 <html>
 	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<title>主题名字</title>
+	<?php include('head.html');?>
 		<link rel="stylesheet" type="text/css" href="/static/core/css/common.css">
 		<link rel="stylesheet" type="text/css" href="/static/core/bootstrap-3.3.2-dist/css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="/static/graduation/admin/css/guestbook.css">
@@ -40,7 +38,7 @@
 					</tr>
 		  		<?php if (!empty($list)) {?>
 		  			<?php foreach ($list as $li) {?>
-					<tr>
+					<tr id="<?php echo $li['id']; ?>">
 						<td><?php echo $li['uname'];?></td>
 						<td><?php echo $li['email'];?></td>
 						<td><?php echo $li['mobile'];?></td>
@@ -48,7 +46,7 @@
 						<td><?php echo $li['invoice_type'];?></td>
 						<td><?php echo $li['invoice_title'];?></td>
 						<td><?php echo $li['register_time'];?></td>
-						<td><a href="">删除</a></td>
+						<td><a href="javascript:;" id="delete">删除</a></td>
 					</tr>
 					<?php }?>
 				<?php }?>
@@ -60,6 +58,10 @@
 	</div><!-- end .row -->
 	</div> <!-- end .container-fluid -->
 
+	<script>
+		var del_url = "<?=site_url('admin/del_act')?>";
+	</script>
 	<script src="/static/core/js/common.js"></script>
+	<script src="/static/graduation/admin/js/guestbook.js"></script>
 	</body>
 </html>

@@ -6,6 +6,7 @@ define('COOKIE_PASSWARD', 'zsign2015hd');
 define('REGISTER_COOKIE', 'sign_2015');
 define('STEP_COOKIE', 'step');
 define('UID_COOKIE', 'uid');
+define('AID_COOKIE', 'aid');
 define('TYPE_COOKIE', 'type');
 define('NOMAL_USER', 1); //普通岛民用户类型
 define('VIP_USER', 2); //免费岛民用户类型

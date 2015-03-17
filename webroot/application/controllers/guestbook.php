@@ -7,6 +7,7 @@ class Guestbook extends CI_Controller {
         $this->load->helper(array('url'));
 		$this->load->model("api/api_model","api");
 		$this->load->model("graduation/guestbook_model","guestbook");
+        $this->load->model('graduation/admin_model', 'admin');
 		session_start();
 	}
 
@@ -21,6 +22,11 @@ class Guestbook extends CI_Controller {
 		$config['total_rows'] = $total;
 		$config['per_page'] = $per;
 		$list = $this->guestbook->get_guest_list($per, $this->uri->segment(3));
+		$sider = $this->admin->get_list('news', 10, 0, 'ctime desc', 'is_active = 1');
+		foreach ($list as &$li) {
+			$reply = $this->admin->selectBy('guestbook_reply', array('gid'=>$li['id']));
+			$li['reply'] = $reply[0]['text'];
+		}
 		$this->pagination->initialize($config);
 		$page = $this->pagination->create_links();
 		$data = array(
@@ -28,6 +34,7 @@ class Guestbook extends CI_Controller {
 			'add' => $addUrl,
 			'list' => $list,
 			'page' => $page,
+			'sider' => $sider,
 		);
 		$this->load->view('graduation/guestbook.html', $data);
 	}
@@ -80,6 +87,7 @@ class Guestbook extends CI_Controller {
 			'name' => $name,
 			'email' => $email,
 			'text' => $text,
+			'is_active' => 1,
 			'ctime' => time(),
 		);
 		$re = $this->guestbook->add_guestbook($data);
@@ -91,4 +99,5 @@ class Guestbook extends CI_Controller {
 			return;
 		}
 	}
+
 }

@@ -17,12 +17,14 @@ class Activity extends CI_Controller {
 		$config['per_page'] = $per;
 		//获取留言列表
 		$list = $this->admin->get_list('act', $per, $this->uri->segment(3), 'ctime desc');
+		$sider = $this->admin->get_list('news', 10, 0, 'ctime desc', 'is_active = 1');
 		$this->pagination->initialize($config);
 		$re = $this->pagination->create_links();
 
 		$data = array(
 			'page' => $re,
 			'list' => $list,
+			'sider' => $sider,
 		);
 		$this->load->view('graduation/activity.html', $data);
 	}

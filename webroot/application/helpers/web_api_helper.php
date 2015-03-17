@@ -38,7 +38,6 @@
  */
 if ( !function_exists('web_api_load') ) {
 	function web_api_load() {
-		require_once(dirname(__FILE__) . '/../../../lib/www_api.php');
 	}
 }
 
@@ -52,15 +51,6 @@ if ( !function_exists('get_user_info') ) {
 	}
 */
     function get_user_info($mobile){
-        require_once(dirname(__FILE__).'/curl_helper.php');
-        $result = curl_get_post(ACT_DB_API_URL.'/api/user/selbymobile', array('app_key'=>ACT_DB_APP_KEY, 'mobile'=>$mobile));
-        log_message('info', $mobile . ' request web info='.var_export($result, true));
-        $result = json_decode($result, true);
-        log_message('info', $mobile . ' request web info='.var_export($result, true));
-        if($result && ('200' == $result['code'])){
-            return (array)$result['users'][0];
-        }
-        return array();
     }
 }
 /* Location: ./system/helpers/file_helper.php */

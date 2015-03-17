@@ -19,9 +19,15 @@ class Welcome extends CI_Controller {
 		foreach ($commend_list as &$li) {
 			$li['brief'] = $this->api->mbStr($li['brief'], '50') . '...';
 		}
+		#新闻列表
+		$news_list = $this->admin->get_list('news', 3, '', 'ctime desc', 'is_active = 1');
+		foreach ($news_list as &$new) {
+			$new['brief'] = $this->api->mbStr($new['news_info'], '50') . '...';
+		}
 		$data = array(
 			'commend_list' => $commend_list,
 			'act_list' => $act_list,
+			'news_list' => $news_list,
 		);
 		$this->load->view('graduation/index.html', $data);
 	}
@@ -30,9 +36,11 @@ class Welcome extends CI_Controller {
 	public function search() {
         $name  = trim($this->input->get_post('search', true));
 		$list = $this->admin->get_list('act', 10000000, $this->uri->segment(3), '', "act_name like '%" . $name . "%'");
+		$sider = $this->admin->get_list('news', 10, 0, 'ctime desc', 'is_active = 1');
 
 		$data = array(
 			'list' => $list,
+			'sider' => $sider,
 		);
 		$this->load->view('graduation/search.html', $data);
 	}

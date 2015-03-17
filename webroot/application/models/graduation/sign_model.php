@@ -209,10 +209,10 @@ class Sign_model extends CI_model {
         return $re;
     }
 
-    public function checkLogin($mobile, $vcode)
+    public function checkLogin($mobile, $vcode, $aid)
     {
         //$mobile = $this->api->encrypt($mobile);
-        $record = $this->selectBy('sign', array('mobile'=>$mobile, 'vcode'=>$vcode));
+        $record = $this->selectBy('sign', array('mobile'=>$mobile, 'vcode'=>$vcode, 'act_id'=>$aid));
 		log_message('info', 'selectBy record = ' . var_export($record, true));
         return $record;
     }

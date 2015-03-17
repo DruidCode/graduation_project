@@ -8,7 +8,8 @@ require(['zepto','ui/alertbox','util/xnet','util/verify'],function($,alertbox,xn
 			url: getVerCodeUrl,
 			type: 'post',
 			data: {
-				mobile: $('#mobile').val()
+				mobile: $('#mobile').val(),
+				aid: $('#aid').val()
 			},
 			errorCodes: '*',
 			success: function(result) {
@@ -27,7 +28,8 @@ require(['zepto','ui/alertbox','util/xnet','util/verify'],function($,alertbox,xn
 				type: 'post',
 				data: {
 					mobile: $('#mobile').val(),
-					vercode: $('#vercode').val()
+					vercode: $('#vercode').val(),
+					aid: $('#aid').val(),
 				},
 				errorCodes: '*',
 				success: function(result) {

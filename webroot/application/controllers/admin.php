@@ -70,6 +70,7 @@ class Admin extends CI_Controller {
         $detail  = trim($this->input->get_post('detail', true));
         $active  = $this->input->get_post('is_active', true);
         $cid  = $this->input->get_post('cid', true);
+        $avatar_def  = $this->input->get_post('avatar_def', true);
 
 		$input = 'avatar';
 		$maxsize = 8*1024*1024;
@@ -82,49 +83,48 @@ class Admin extends CI_Controller {
 		$date = date('Ymd');
 		if ( !is_dir($path . $date) ) mkdir($path.$date);
 
-		if ($type != "image/jpeg"
-             && $type != "image/pjpeg"
-             && $type != "image/x-png"
-             && $type != "image/png"
-             && $type != "image/gif") {
-             $code = 4;
-             $this->api->xNetOut($code, '上传图片格式错误', '', 'default');
-             return;
-         }
-         if ($_FILES[$input]['error'] > 0) {
-             $code = 1;
-             $this->api->xNetOut($code, '上传错误', '', 'default');
-             return;
-         }
-         if ($size > $maxsize) {
-             $code = 2;
-             $this->api->xNetOut($code, '文件大小大于8M', '', 'default');
-             return;
-         }
-		 $new_name = $this->create_name();
-         $ext = $this->get_suffix($src_name); //后缀
-         $filename = $ext ? $new_name . '.' . $ext : $new_name;
-         $mv_re    = move_uploaded_file($tmp_name, $path . $date . '/' . $filename);
-		if ($mv_re) { #上传成功
-			$file_path = base_url() . $this->conf['web_url'] . $date . '/' . $filename;
-			$data = array(
-				'img' => $file_path,
-				'name' => $name,
-				'brief' => $brief,
-				'detail' => $detail,
-				'is_active' => $active,
-				'ctime' => time(),
-			);
-			if (empty($cid)) { #新增
-				$this->admin->add_commend($data);
-			} else { #修改
-				$this->admin->updateBy('commend', array('id'=>$cid), $data);
-			}
-			redirect('admin/commend_list');
-		#到列表页
-		} else { #上传失败
-			redirect('admin/commend_list');
+		if ( !empty($size) ) {
+				if ($type != "image/jpeg"
+					 && $type != "image/pjpeg"
+					 && $type != "image/x-png"
+					 && $type != "image/png"
+					 && $type != "image/gif") {
+					 $code = 4;
+					 $this->api->xNetOut($code, '上传图片格式错误', '', 'default');
+					 return;
+				 }
+				 if ($_FILES[$input]['error'] > 0) {
+					 $code = 1;
+					 $this->api->xNetOut($code, '上传错误', '', 'default');
+					 return;
+				 }
+				 if ($size > $maxsize) {
+					 $code = 2;
+					 $this->api->xNetOut($code, '文件大小大于8M', '', 'default');
+					 return;
+				 }
+				 $new_name = $this->create_name();
+				 $ext = $this->get_suffix($src_name); //后缀
+				 $filename = $ext ? $new_name . '.' . $ext : $new_name;
+				 $mv_re    = move_uploaded_file($tmp_name, $path . $date . '/' . $filename);
+				$file_path = base_url() . $this->conf['web_url'] . $date . '/' . $filename;
+		 } else if ( !empty($avatar_def) ) {
+		 	$file_path = $avatar_def;
+		 }
+		$data = array(
+			'img' => $file_path,
+			'name' => $name,
+			'brief' => $brief,
+			'detail' => $detail,
+			'is_active' => $active,
+			'ctime' => time(),
+		);
+		if (empty($cid)) { #新增
+			$this->admin->add_commend($data);
+		} else { #修改
+			$this->admin->updateBy('commend', array('id'=>$cid), $data);
 		}
+		redirect('admin/commend_list');
 	}
 
 	public function commend_detail() {
@@ -143,6 +143,7 @@ class Admin extends CI_Controller {
 			'detail' => $re[0]['detail'],
 			'is_active' => $re[0]['is_active'],
 			'cid' => $cid,
+			'img' => $re[0]['img'],
 		);
 		$this->load->view('graduation/admin/commend.html', $data);
 	}
@@ -215,6 +216,7 @@ class Admin extends CI_Controller {
         $sign_time  = trim($this->input->get_post('sign_time', true));
         $is_active  = trim($this->input->get_post('is_active', true));
         $aid  = $this->input->get_post('aid', true);
+        $avatar_def  = $this->input->get_post('avatar_def', true);
 
 		$data = array();
 		$data['act_img'] = '';
@@ -257,6 +259,8 @@ class Admin extends CI_Controller {
 				$file_path = base_url() . $this->conf['web_url'] . $date . '/' . $filename;
 				$data['act_img'] = $file_path;
 			}
+		} else if ( !empty($avatar_def) ) {
+			$data['act_img'] = $avatar_def;
 		}
 		$data['act_name'] = $act_name;
 		$data['act_info'] = $act_info;
@@ -317,6 +321,7 @@ class Admin extends CI_Controller {
 			'end_time' => date('Y-m-d H:i:s', $re[0]['end_time']),
 			'sign_time' => date('Y-m-d H:i:s', $re[0]['sign_time']),
 			'aid' => $aid,
+			'img' => $re[0]['act_img'],
 		);
 		$this->load->view('graduation/admin/act.html', $data);
 	}
@@ -367,6 +372,7 @@ class Admin extends CI_Controller {
 			'news_source' => $re[0]['news_source'],
 			'news_info' => $re[0]['news_info'],
 			'is_active' => $re[0]['is_active'],
+			'img' => $re[0]['img'],
 			'ctime' => time(),
 			'nid' => $nid,
 		);
@@ -383,14 +389,57 @@ class Admin extends CI_Controller {
         $news_info  = trim($this->input->get_post('news_info', true));
         $active  = $this->input->get_post('is_active', true);
         $nid  = $this->input->get_post('nid', true);
+        $avatar_def  = $this->input->get_post('avatar_def', true);
 
-		$data = array(
-			'news_title' => $news_title,
-			'news_source' => $news_source,
-			'news_info' => $news_info,
-			'is_active' => $active,
-			'ctime' => time(),
-		);
+		$data = array();
+		$data['img'] = '';
+		if ( !empty($_FILES['avatar']['name']) ) {
+				$input = 'avatar';
+				$maxsize = 8*1024*1024;
+				$type   = $_FILES[$input]['type'];
+				$size   = $_FILES[$input]['size'];
+				$tmp_name = $_FILES[$input]['tmp_name'];
+				$src_name = $_FILES[$input]['name'];
+
+				$path = $this->conf['upload_path'];
+				$date = date('Ymd');
+				if ( !is_dir($path . $date) ) mkdir($path.$date);
+
+				if ($type != "image/jpeg"
+					 && $type != "image/pjpeg"
+					 && $type != "image/x-png"
+					 && $type != "image/png"
+					 && $type != "image/gif") {
+					 $code = 4;
+					 $this->api->xNetOut($code, '上传图片格式错误', '', 'default');
+					 return;
+				 }
+				 if ($_FILES[$input]['error'] > 0) {
+					 $code = 1;
+					 $this->api->xNetOut($code, '上传错误', '', 'default');
+					 return;
+				 }
+				 if ($size > $maxsize) {
+					 $code = 2;
+					 $this->api->xNetOut($code, '文件大小大于8M', '', 'default');
+					 return;
+				 }
+				 $new_name = $this->create_name();
+				 $ext = $this->get_suffix($src_name); //后缀
+				 $filename = $ext ? $new_name . '.' . $ext : $new_name;
+				 $mv_re    = move_uploaded_file($tmp_name, $path . $date . '/' . $filename);
+			if ($mv_re) { #上传成功
+				$file_path = base_url() . $this->conf['web_url'] . $date . '/' . $filename;
+				$data['img'] = $file_path;
+			}
+		} else if ( !empty($avatar_def) ) {
+			$data['img'] = $avatar_def;
+		}
+		$data['news_title'] = $news_title;
+		$data['news_source'] = $news_source;
+		$data['news_info'] = $news_info;
+		$data['is_active'] = $active;
+		$data['ctime'] = time();
 		if (empty($nid)) { #新增
 			$this->admin->add_data('news', $data);
 		} else { #修改
@@ -411,12 +460,13 @@ class Admin extends CI_Controller {
 		$config['base_url'] = site_url('admin/guestbook_list');
 		$config['total_rows'] = $total;
 		$config['per_page'] = $per;
-		$list = $this->admin->get_list('guestbook', $per, $this->uri->segment(3), 'ctime desc');
+		$list = $this->admin->get_list('guestbook', $per, $this->uri->segment(3), 'ctime desc', array('is_active'=>1));
 		$this->pagination->initialize($config);
 		$page = $this->pagination->create_links();
 		$data = array(
 			'list' => $list,
 			'page' => $page,
+			'del' => site_url('admin/del_guestbook'),
 		);
 		$this->load->view('graduation/admin/guestbooklist.html', $data);
 	}
@@ -432,12 +482,14 @@ class Admin extends CI_Controller {
 			return;
 		}
 		$re = $this->admin->selectBy('guestbook', array('id'=>$gid));
+		$reply = $this->admin->selectBy('guestbook_reply', array('gid'=>$gid));
 		$data = array(
 			'name' => $re[0]['name'],
 			'email' => $re[0]['email'],
 			'text' => $re[0]['text'],
 			'ctime' => date('Y-m-d H:i:s', $re[0]['ctime']),
 			'gid' => $gid,
+			'reply' => $reply[0]['text'],
 		);
 		$this->load->view('graduation/admin/guestbook.html', $data);
 	}
@@ -449,11 +501,18 @@ class Admin extends CI_Controller {
 		}
         $gid  = trim($this->input->get_post('gid', true));
         $text = trim($this->input->get_post('text', true));
+        $reply = trim($this->input->get_post('reply', true));
 
 		$data = array(
 			'text' => $text,
 		);
 		$this->admin->updateBy('guestbook', array('id'=>$gid), $data);
+		$re = $this->admin->selectBy('guestbook_reply', array('gid'=>$gid));
+		if ( empty($re) ) {
+			$this->admin->add_data('guestbook_reply', array('gid'=>$gid, 'text'=>$reply, 'ctime'=>time()));
+		} else {
+			$this->admin->updateBy('guestbook_reply', array('gid'=>$gid), array('text'=>$reply, 'ctime'=>time()));
+		}
 		redirect('admin/guestbook_list');
 	}
 
@@ -470,7 +529,7 @@ class Admin extends CI_Controller {
 		$config['base_url'] = site_url('admin/sign_list');
 		$config['total_rows'] = $total;
 		$config['per_page'] = $per;
-		$list = $this->admin->get_list('sign', $per, $this->uri->segment(3), 'register_time desc', 'act_id = ' . $aid);
+		$list = $this->admin->get_list('sign', $per, $this->uri->segment(3), 'register_time desc', array('act_id'=>$aid, 'check_status'=>1) );
 		if (!empty($list)) {
 		foreach ($list as &$li) {
 			switch ($li['invoice_type']) {
@@ -500,7 +559,7 @@ class Admin extends CI_Controller {
 	public function export_excel()
 	{
         $aid  = trim($this->input->get_post('aid', true));
-		$list = $this->admin->get_list('sign', 10000000, $this->uri->segment(3), '', 'act_id = ' . $aid);
+		$list = $this->admin->get_list('sign', 10000000, $this->uri->segment(3), '', array('act_id'=>$aid, 'check_status'=>1));
 
 		$this->load->library('excel');
 		$excel = new Excel();
@@ -523,5 +582,29 @@ class Admin extends CI_Controller {
 			$data['rows'][] =  array($li['id'], $li['uname'], $li['mobile'], $li['vcode'], $li['email'], $li['invoice_type'], $li['invoice_title'], $li['register_time']);
 		}
 		$excel->write($filename, $data['header'], $data['rows']);
+	}
+
+	public function del_guestbook() {
+		$id = $this->input->get_post('id' , TRUE);
+
+		if (empty($id)) {
+			$this->api->xNetOut(1, '删除失败');
+			return;
+		}
+
+		$this->admin->updateBy('guestbook', array('id'=>$id), array('is_active'=>0));
+		$this->api->xNetOut(0, '成功删除', site_url('guestbook'));
+	}
+
+	public function del_act() {
+		$id = $this->input->get_post('id' , TRUE);
+
+		if (empty($id)) {
+			$this->api->xNetOut(1, '删除失败');
+			return;
+		}
+
+		$this->admin->updateBy('sign', array('id'=>$id), array('check_status'=>0));
+		$this->api->xNetOut(0, '成功删除');
 	}
 }

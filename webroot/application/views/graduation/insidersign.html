@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<title></title>
+	<?php include('head.html');?>
 		<link rel="stylesheet" type="text/css" href="/static/sign/insidersign/css/main-min.css">
 		<?php include('inc/requireconf.html');?>
 		<script defer src="/static/core/libs/js/require.js" data-main="/static/sign/insidersign/js/main.js"></script>
@@ -27,8 +25,6 @@
 				<div class="input-group">
 					<input type="text" id="email" name="email" class="form-control" placeholder="邮箱" value="<?php echo ( isset($email) && !empty($email) )? $email : '';?>">
 				</div>
-			<div>
-			</div>
 			<div class="btn-group btn-group-justified">
 				<div class="btn-group" role="group">
 					<button type="button" class="btn btn-blue" id="submit-btn">下一步</button>

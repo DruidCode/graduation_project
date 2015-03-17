@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<?php include('head.html');?>
+		<link rel="stylesheet" type="text/css" href="/static/sign/login/css/main-min.css">
+		<link rel="stylesheet" type="text/css" href="/static/core/bootstrap-3.3.2-dist/css/bootstrap.css">
+	</head>
+	<body>
+		<div class="app">
+			<div class="banner">
+	<?php include('navbar.html');?>
+			<h2>活动：<?php echo $act['act_name'];?> <br>报名已经截止</h2>
+			<div class="desc">
+				<h2>活动简介：</h2>
+				<div><?php echo $act['act_info'];?></div>
+			</div>
+			</div>
+		</div>
+	</body>
+</html>

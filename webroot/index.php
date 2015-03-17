@@ -1,17 +1,6 @@
 <?php 
  	date_default_timezone_set('Asia/Shanghai');
 /*
- *   灰度发布，判断用户版本
-*/
-     require_once(dirname(__FILE__) . '/../lib/user_version.lib.php');
-     if( ($version =__user_app_version(dirname(__FILE__))) !== false ) {
-	//如果用户不是这个版本的，转移到下一个版本
-	if(!isset($GLOBALS['__user__version__']) && file_exists(dirname(__FILE__) . '/../webroot' . $version .'/index.php')) {
-		$GLOBALS['__user__version__'] = true;
- 		include(dirname(__FILE__) . '/../webroot' . $version .'/index.php');exit;
-	}
-     }
-/*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
  *---------------------------------------------------------------
@@ -29,8 +18,8 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-	//define('ENVIRONMENT', 'production');
-	define('ENVIRONMENT', 'development');
+	define('ENVIRONMENT', 'production');
+	//define('ENVIRONMENT', 'development');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

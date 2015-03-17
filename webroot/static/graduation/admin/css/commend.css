@@ -110,3 +110,16 @@ body {
 li span{
 	margin-left: 500px; 
 }
+
+.list {
+    padding-top: 1px;
+}
+.list table {
+    margin: 0 auto;
+}
+
+.list table td {
+    padding: 8px !important;
+    line-height: 20px !important;
+    border-bottom: 1px solid #ddd !important;
+}

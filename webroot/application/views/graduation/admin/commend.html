@@ -1,9 +1,7 @@
 <!doctype html>
 <html>
 	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<title>主题名字</title>
+	<?php include('head.html');?>
 		<link rel="stylesheet" type="text/css" href="/static/core/css/common.css">
 		<link rel="stylesheet" type="text/css" href="/static/core/bootstrap-3.3.2-dist/css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="/static/graduation/admin/css/commend.css">
@@ -30,6 +28,7 @@
     				<label for="inputName2" class="col-sm-2 control-label">头像</label>
     				<div class="col-sm-5">
 						<input type="file" name="avatar"></input><br>
+						<input type="hidden" name="avatar_def" id="avatar_def" value="<?php echo $img;?>"/>
 					</div>
 				</div>
   			<div class="form-group">
